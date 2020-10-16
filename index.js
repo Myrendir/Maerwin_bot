@@ -1,14 +1,50 @@
-require('dotenv').config();
 const Discord = require('discord.js');
+const config = require('./json_files/config.json');
+const Enmap = require('enmap');
 const client = new Discord.Client();
-const TOKEN = process.env.TOKEN;
-const fs = require('fs')
-client.login(TOKEN).then();
-client.on('ready', () => {
-    console.info(`Logged in as ${client.user.tag}`);
-    client.user.setAvatar('').then();
+const fs = require('fs');
+
+client.config = config;
+
+fs.readdir("./events/", (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(file => {
+        const event = require(`./events/${file}`);
+        let eventName = file.split(".")[0];
+        client.on(eventName, event.bind(null, client));
+    })
 })
 
-client.on('message', msg => {
+client.commands = new Enmap();
 
-})
+fs.readdir("./commands/admin/", (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(file => {
+        if (!file.endsWith(".js")) return;
+        let props = require(`./commands/admin/${file}`);
+        let commandName = file.split(".")[0];
+        console.log(`Attempting to load command ${commandName}`);
+        client.commands.set(commandName, props);
+    });
+});
+// fs.readdir("./commands/info/", (err, files) => {
+//     if (err) return console.error(err);
+//     files.forEach(file => {
+//         if (!file.endsWith(".js")) return;
+//         let props = require(`./commands/info/${file}`);
+//         let commandName = file.split(".")[0];
+//         console.log(`Attempting to load command ${commandName}`);
+//         client.commands.set(commandName, props);
+//     });
+// });
+// fs.readdir("./commands/music/", (err, files) => {
+//     if (err) return console.error(err);
+//     files.forEach(file => {
+//         if (!file.endsWith(".js")) return;
+//         let props = require(`./commands/music/${file}`);
+//         let commandName = file.split(".")[0];
+//         console.log(`Attempting to load command ${commandName}`);
+//         client.commands.set(commandName, props);
+//     });
+// });
+client.login(config.token).then();
