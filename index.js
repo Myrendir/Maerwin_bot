@@ -6,5 +6,9 @@ const fs = require('fs')
 client.login(TOKEN).then();
 client.on('ready', () => {
     console.info(`Logged in as ${client.user.tag}`);
-    client.user.setActivity('', {type: 'PLAYING'}).then();
+    client.user.setAvatar('').then();
+})
+
+client.on('message', msg => {
+
 })
