@@ -5,8 +5,8 @@ exports.run = (client, message, args) => {
     const command = message.content.split('  ');
     if (command[1] === undefined) {
         const embed = new Discord.MessageEmbed()
-            .setColor("#FF4500")
-            .addFields("Commands", `You can view commands at [github.com](https://github.com/Cramenorn/RaptorSA#commands)`);
+            .setColor("#ff4500")
+            .addFields("Commands", `You can view commands at [github.com](https://github.com/Myrendir/Maerwin_bot/wiki/Commands)`);
         message.channel.send(embed);
     } else if(command[1] !== undefined){
         fs.readFile(__dirname + '/../../jsonFiles/commands.json', (err, dataJson) => {

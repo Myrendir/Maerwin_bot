@@ -17,16 +17,16 @@ fs.readdir("./events/", (err, files) => {
 
 client.commands = new Enmap();
 
-// fs.readdir("./commands/music/", (err, files) => {
-//     if (err) return console.error(err);
-//     files.forEach(file => {
-//         if (!file.endsWith(".js")) return;
-//         let props = require(`./commands/music/${file}`);
-//         let commandName = file.split(".")[0];
-//         console.log(`Attempting to load command ${commandName}`);
-//         client.commands.set(commandName, props);
-//     });
-// });
+fs.readdir("./commands/music/", (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(file => {
+        if (!file.endsWith(".js")) return;
+        let props = require(`./commands/music/${file}`);
+        let commandName = file.split(".")[0];
+        console.log(`Attempting to load command ${commandName}`);
+        client.commands.set(commandName, props);
+    });
+});
 
 fs.readdir("./commands/admin/", (err, files) => {
     if (err) return console.error(err);
